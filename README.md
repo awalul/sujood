@@ -10,3 +10,7 @@ Right now, Sujood is a simple web app written in Javascript and HTML. It's using
 #TODO
 - Background story of MUIS prayer times and how it's nearly impossible to get a proper calculation method
 - How I figured out to get a reliable output based on the exact variables and offsets.
+
+In the meantime, here are some links that helped me in my work:
+- http://www.math.nus.edu.sg/aslaksen/calendar/islamic.shtml
+- https://github.com/batoulapps/Adhan
