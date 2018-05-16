@@ -1,0 +1,58 @@
+<html>
+<head>
+    <title>Sujood</title>
+    <script src="Adhan.js"></script>
+</head>
+<body>
+    <pre><script type="text/javascript">
+
+
+    function prayerName(prayer) {
+        if (prayer == adhan.Prayer.Fajr) {
+            return "Subuh";
+        } else if (prayer == adhan.Prayer.Sunrise) {
+            return "Syuruk";
+        } else if (prayer == adhan.Prayer.Dhuhr) {
+            return "Zuhur";
+        } else if (prayer == adhan.Prayer.Asr) {
+            return "Asar";
+        } else if (prayer == adhan.Prayer.Maghrib) {
+            return "Maghrib";
+        } else if (prayer == adhan.Prayer.Isha) {
+            return "Isyak";
+        } else if (prayer == adhan.Prayer.None) {
+            return "None";
+        }
+    }
+
+    var date = new Date();
+    var ram11439 = new Date(2018,4,16);
+    var sya11439 = new Date(2018,5,15);
+    var coordinates = new adhan.Coordinates(1.239647, 103.647946); // Sultan Shoal
+    var params = adhan.CalculationMethod.Singapore();
+    params.madhab = adhan.Madhab.Shafi;
+    if(date > ram11439 && date < sya11439) {
+      params.adjustments.maghrib = 1;
+    } else {
+      params.adjustments.maghrib = 0;
+    }
+
+    var prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
+    var formattedTime = adhan.Date.formattedTime;
+
+    document.write('Sujood by <a href=\"https://www.hazrulazhar.com\">Haz & Co</a>\n\n');
+    document.write('Singapore - MUIS\n');
+    document.write('Prayer times for ' + date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + '\n\n');
+    document.write(prayerName(adhan.Prayer.Fajr) + ': ' + formattedTime(prayerTimes.fajr, +8) + '\n');
+    document.write(prayerName(adhan.Prayer.Sunrise) + ': ' + formattedTime(prayerTimes.sunrise, +8) + '\n');
+    document.write(prayerName(adhan.Prayer.Dhuhr) + ': ' + formattedTime(prayerTimes.dhuhr, +8) + '\n');
+    document.write(prayerName(adhan.Prayer.Asr) + ': ' + formattedTime(prayerTimes.asr, +8) + '\n');
+    document.write(prayerName(adhan.Prayer.Maghrib) + ': ' + formattedTime(prayerTimes.maghrib, +8) + '\n');
+    document.write(prayerName(adhan.Prayer.Isha) + ': ' + formattedTime(prayerTimes.isha, +8) + '\n');
+
+    document.write('\nCurrent Prayer: ' + prayerName(prayerTimes.currentPrayer()) + '\n');
+    document.write('\nNext Prayer: ' + prayerName(prayerTimes.nextPrayer()) + '\n');
+
+    </script></pre>
+</body>
+</html>
