@@ -33,8 +33,6 @@
     params.madhab = adhan.Madhab.Shafi;
     if(date > ram11439 && date < sya11439) {
       params.adjustments.maghrib = 1;
-    } else {
-      params.adjustments.maghrib = 0;
     }
 
     var prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
@@ -52,6 +50,10 @@
 
     document.write('\nCurrent Prayer: ' + prayerName(prayerTimes.currentPrayer()) + '\n');
     document.write('\nNext Prayer: ' + prayerName(prayerTimes.nextPrayer()) + '\n');
+
+    if(date > ram11439 && date < sya11439) {
+      document.write('\nBreak your fast with <a href=\"http://www.halalonclick.com\">HalalOnClick</a>');
+    }
 
     </script></pre>
 </body>
