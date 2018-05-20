@@ -32,18 +32,25 @@
     var ram11439 = new Date(2018,4,16);
     var sya11439 = new Date(2018,5,15);
     var coordinates = new adhan.Coordinates(1.239647, 103.647946); // Sultan Shoal
+    //var coordinates = new adhan.Coordinates(1.342778, 103.852222) // Old MUIS Building
     var params = adhan.CalculationMethod.Singapore();
     params.madhab = adhan.Madhab.Shafi;
+
     if(date > ram11439 && date < sya11439) {
+      params.adjustments.fajr = -1;
       params.adjustments.maghrib = 1;
     }
 
     var prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
     var formattedTime = adhan.Date.formattedTime;
+    var imsakTime = new Date(prayerTimes.fajr);
+    imsakTime = imsakTime.setMinutes(imsakTime.getMinutes()-10);
+    imsakTime = new Date(imsakTime);
 
     document.write('Sujood by <a href=\"https://www.hazrulazhar.com\">Haz & Co</a>\n\n');
     document.write('Singapore - MUIS\n');
     document.write('Prayer times for ' + date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + '\n\n');
+    document.write('Imsak' + ': ' + formattedTime(imsakTime, +8) + '\n');
     document.write(prayerName(adhan.Prayer.Fajr) + ': ' + formattedTime(prayerTimes.fajr, +8) + '\n');
     document.write(prayerName(adhan.Prayer.Sunrise) + ': ' + formattedTime(prayerTimes.sunrise, +8) + '\n');
     document.write(prayerName(adhan.Prayer.Dhuhr) + ': ' + formattedTime(prayerTimes.dhuhr, +8) + '\n');
@@ -55,6 +62,7 @@
     document.write('\nNext Prayer: ' + prayerName(prayerTimes.nextPrayer()) + '\n');
 
     if(date > ram11439 && date < sya11439) {
+      document.write('\n<a href="ramadan.html">Ramadan Calendar</a>');
       document.write('\nBreak your fast with <a href=\"http://www.halalonclick.com\">HalalOnClick</a>');
     }
 

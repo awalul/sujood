@@ -1,0 +1,89 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sujood</title>
+    <script src="Adhan.js"></script>
+</head>
+<body>
+    <pre><script type="text/javascript">
+
+
+    function prayerName(prayer) {
+        if (prayer == adhan.Prayer.Fajr) {
+            return "Subuh";
+        } else if (prayer == adhan.Prayer.Sunrise) {
+            return "Syuruk";
+        } else if (prayer == adhan.Prayer.Dhuhr) {
+            return "Zuhur";
+        } else if (prayer == adhan.Prayer.Asr) {
+            return "Asar";
+        } else if (prayer == adhan.Prayer.Maghrib) {
+            return "Maghrib";
+        } else if (prayer == adhan.Prayer.Isha) {
+            return "Isyak";
+        } else if (prayer == adhan.Prayer.None) {
+            return "None";
+        }
+    }
+
+    var date = new Date();
+    var ram11439 = new Date(2018,4,16);
+    var sya11439 = new Date(2018,5,15);
+    var coordinates = new adhan.Coordinates(1.239647, 103.647946); // Sultan Shoal
+    //var coordinates = new adhan.Coordinates(1.342778, 103.852222) // Old MUIS Building
+    var params = adhan.CalculationMethod.Singapore();
+    params.madhab = adhan.Madhab.Shafi;
+
+    var getDateArray = function(start, end) {
+        var arr = new Array();
+        var dt = new Date(start);
+        while (dt <= end) {
+            arr.push(new Date(dt));
+            dt.setDate(dt.getDate() + 1);
+        }
+        return arr;
+    }
+
+    if(date > ram11439 && date < sya11439) {
+      params.adjustments.fajr = -1;
+      params.adjustments.maghrib = 1;
+    }
+
+    var prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
+    var formattedTime = adhan.Date.formattedTime;
+
+    // Whole Ramadan calendar
+
+    var dateArr = getDateArray(ram11439, sya11439);
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    // Output
+    document.write("<p>Start Date: " + ram11439 + "</p>");
+    document.write("<p>End Date: " + sya11439 + "</p>");
+
+    document.write("<table border='1'><tr><td>Date</td><td>Day</td><td>Subuh</td><td>Syuruk</td><td>Zuhur</td><td>Asar</td><td>Maghrib</td><td>Isyak</td></tr>");
+    for (var i = 0; i < dateArr.length; i++) {
+        prayerTimes = new adhan.PrayerTimes(coordinates, dateArr[i], params);
+        formattedTime = adhan.Date.formattedTime;
+        document.write("<tr>");
+        document.write("<td>" + dateArr[i].getDate() + "/" + (dateArr[i].getMonth()+1) + "/" + dateArr[i].getFullYear() + "</td>");
+        document.write("<td>" + days[dateArr[i].getDay()] + "</td>");
+        document.write("<td>" + formattedTime(prayerTimes.fajr, +8) + "</td>");
+        document.write("<td>" + formattedTime(prayerTimes.sunrise, +8) + "</td>");
+        document.write("<td>" + formattedTime(prayerTimes.dhuhr, +8) + "</td>");
+        document.write("<td>" + formattedTime(prayerTimes.asr, +8) + "</td>");
+        document.write("<td>" + formattedTime(prayerTimes.maghrib, +8) + "</td>");
+        document.write("<td>" + formattedTime(prayerTimes.isha, +8) + "</td>");
+        document.write("</tr>")
+    }
+    document.write("</table>");
+    // End: Whole Ramadan calendar
+
+    document.write('\n<a href="index.html">Home</a>');
+    document.write('\nBreak your fast with <a href=\"http://www.halalonclick.com\">HalalOnClick</a>');
+
+    </script></pre>
+</body>
+</html>
